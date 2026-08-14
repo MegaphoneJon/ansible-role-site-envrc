@@ -1,0 +1,22 @@
+#!/bin/bash
+{# run_as_user is probably as close as we get, this isn't 100% standardized. Yet. #}
+if [ "$NICK" = {{ run_as_user }} ]; then
+  # direnv files aren't 100% shell compatible; this is a shim for direnv PATH_add.
+  PATH_add() {
+    local dir
+    for dir in "$@"; do
+      case "$dir" in
+        /*) ;;
+        *) dir="$PWD/$dir" ;;
+      esac
+      case ":$PATH:" in
+        *":$dir:"*) ;;
+        *) PATH="$dir:$PATH" ;;
+      esac
+    done
+    export PATH
+  }
+
+  source {{ gitroot }}/.envrc
+  cd {{ gitroot }}
+fi

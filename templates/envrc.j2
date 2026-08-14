@@ -1,0 +1,10 @@
+export NICK={{ run_as_user }}
+export gr='{{ gitroot }}'
+export wr='{{ webroot }}'
+export cr='{{ civiroot }}'
+export bare_url='{{ bare_url }}'
+export logdir='{{ civicrm_files_path }}/ConfigAndLog'
+export extdir='{{ webroot }}/{{ extensions_path }}'
+{% if cms == 'Drupal8' -%}
+  PATH_add {{ gitroot }}/vendor/bin
+{% endif %}

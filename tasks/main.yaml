@@ -1,0 +1,27 @@
+---
+# can't install direnv without root
+- name: Create the .envrc
+  template:
+    src: "templates/envrc.j2"
+    dest: "{{ gitroot }}/.envrc"
+  become: "{{ false if nosudo else true }}"
+  become_user: "{{ run_as_user }}"
+  notify: direnv allow
+
+- name: Set the .shellrc dir
+  set_fact:
+    shellrc_dir: "{{ ansible_facts.env.HOME if nosudo else '/home/jon' }}{{ '/include/megaphone' if 'mayfirst_ng_site' in group_names }}/.shellrc/rc.d"
+
+- name: Create the shellrc dir
+  file:
+    path: "{{ shellrc_dir }}"
+    state: directory
+  become: "{{ false if nosudo else true }}"
+  become_user: "{{ run_as_user if nosudo else 'jon' }}"
+
+- name: Create the .shellrc files
+  template:
+    src: "templates/shellrc.sh.j2"
+    dest: "{{ shellrc_dir }}/{{ run_as_user }}.sh"
+  become: "{{ false if nosudo else true }}"
+  become_user: "{{ run_as_user if nosudo else 'jon' }}"

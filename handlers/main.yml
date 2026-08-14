@@ -1,0 +1,7 @@
+---
+- name: direnv allow
+  command: 
+    cmd: direnv allow
+    chdir: "{{ gitroot }}"
+  become: "{{ 'no' if run_as_user == ansible_user else 'yes' }}"
+  become_user: "{{ ansible_user if run_as_user == ansible_user else 'jon' }}"
