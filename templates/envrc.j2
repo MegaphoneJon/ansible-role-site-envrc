@@ -3,7 +3,11 @@ export gr='{{ gitroot }}'
 export wr='{{ webroot }}'
 export cr='{{ civiroot }}'
 export bare_url='{{ bare_url }}'
+{% if cms == 'Standalone' -%}
+export logdir='{{ gitroot }}/private/log'
+{% else -%}
 export logdir='{{ civicrm_files_path }}/ConfigAndLog'
+{% endif %}
 export extdir='{{ webroot }}/{{ extensions_path }}'
 {% if cms == 'Drupal8' -%}
   PATH_add {{ gitroot }}/vendor/bin
